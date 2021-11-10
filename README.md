@@ -7,6 +7,54 @@ In this simulator, your player starts off in the Horace Mann region. After picki
 Think you have what it takes? Start your jounrey today!
 
 ## List of Pokémon
-1. 
+1. k
+-Types:
+-Moves:
+-HP:
+
+2. h
+-Types:
+-Moves:
+-HP:
+
+3. h
+-Types:
+-Moves:
+-HP:
+
+4. h
+-Types:
+-Moves:
+-HP:
+
+5. h
+-Types:
+-Moves:
+-HP:
+
+6. h
+-Types:
+-Moves:
+-HP:
+
+7. h
+-Types:
+-Moves:
+-HP:
+
+8. h
+-Types:
+-Moves:
+-HP:
+
+9. h
+-Types:
+-Moves:
+-HP:
+
+10. g
+-Types:
+-Moves:
+-HP:
 
 ## List of Pokémon Moves
