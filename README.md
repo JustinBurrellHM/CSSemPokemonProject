@@ -7,7 +7,7 @@ In this simulator, your player starts off in the Horace Mann region. After picki
 Think you have what it takes? Start your jounrey today!
 
 ## List of Pokémon
-1. k
+1. Zacian-Crowned
 -Types:
 -Moves:
 -HP:
