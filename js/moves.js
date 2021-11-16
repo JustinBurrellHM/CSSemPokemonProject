@@ -1,30 +1,3 @@
 export const Moves = {
-    behemothblade: {
-		num: 781,
-		accuracy: 100,
-		basePower: 100,
-		category: "Physical",
-		name: "Behemoth Blade",
-		pp: 5,
-		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
-		secondary: null,
-		target: "normal",
-		type: "Steel",
-	},
-    wildcharge: {
-		num: 528,
-		accuracy: 100,
-		basePower: 90,
-		category: "Physical",
-		name: "Wild Charge",
-		pp: 15,
-		priority: 0,
-		flags: {contact: 1, protect: 1, mirror: 1},
-		recoil: [1, 4],
-		secondary: null,
-		target: "normal",
-		type: "Electric",
-		contestType: "Tough",
-	},
+    
 }
