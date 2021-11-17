@@ -1,8 +1,8 @@
 import json
 
 with open('persons.j son') as f:
-   data = json.load(f)
+   pokedex = json.load(f)
 
-pokemon1 = data[]
+pokemon1 = pokedex[]
 
 
