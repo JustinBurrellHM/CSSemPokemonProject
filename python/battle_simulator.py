@@ -1,6 +1,6 @@
 import json
 
-with open('persons.j son') as f:
+with open('moves.json') as f:
    data = json.load(f)
 
 # def move():
