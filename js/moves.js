@@ -1,7 +1,4 @@
 export const Moves = {
-<<<<<<< HEAD
-    
-=======
 	quickattack: {
 		num: 98,
 		accuracy: 100,
@@ -76,5 +73,4 @@ export const Moves = {
 		type: "Dark",
 		contestType: "Tough",
 	}
->>>>>>> d21da39101ca8f9d7fb7f2a50fc1842a41d696d8
 }
