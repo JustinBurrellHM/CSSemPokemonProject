@@ -1,14 +1,18 @@
 class Pokemon:
-   def __init__(self, stats, moves):
-      self.pokemon_name = ""
-      self.pokemon_hp = 0
-      self.pokemon_atk = 0
-      self.pokemon_def = 0
-      self.pokemon_spa = 0
-      self.pokemon_spd = 0
-      self.pokemon_spe = 0
-      self.moves = [moves]
-      
+  def __str__(self):
+   return f"Name: {self.name}, HP: {self.pokemon_hp}, MOVES: {self.moves}"
+  
+  def __init__(self, stats, moves):
+    self.name = stats["name"]
+    self.pokemon_hp = stats["baseStats"]["hp"]
+    self.pokemon_atk = stats["baseStats"]["atk"]
+    self.pokemon_def = stats["baseStats"]["def"]
+    self.pokemon_spa = stats["baseStats"]["spa"]
+    self.pokemon_spd = stats["baseStats"]["spd"]
+    self.pokemon_spe = stats["baseStats"]["spe"]
+    self.moves = moves
+  
+
     #move function
     # def move(self):
     #     # user selects a move 

@@ -5,17 +5,16 @@ pokedex = None
 with open('../json/pokedex.json') as f:
    pokedex = json.load(f)
 
-p1 = Pokemon(pokedex["zaciancrowned"])
-p2 = Pokemon(pokedex["zaciancrowned"])
+moves = None
+with open('../json/moves.json') as f:
+   moves = json.load(f)
 
-def __str__(self):
-   return self.name + self.pokemon_hp + self.pokemon_atk + self.pokemon_def + self.pokemon_spa + self.pokemon_spd + self.pokemon_spe + self.moves
-
-   f"Name: {self.name} "
+p1 = Pokemon(pokedex["zaciancrowned"], [moves["quickattack"]])
+p2 = Pokemon(pokedex["zaciancrowned"], [moves["quickattack"]])
 
 def interface():
    input("Welcome to the Pokémon Battle Simulator. Press enter to continue")
-   print(p1.__str__())
+   print(p1.name)
    # input("Here is the battle situation " + p1 + "versus" + p2)
 
 
