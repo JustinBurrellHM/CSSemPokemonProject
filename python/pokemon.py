@@ -10,7 +10,7 @@ class Pokemon:
       self.moves = []
 
     #move function
-    def move(self):
+  def move(self):
         # moves dictionary is appended so a Pokemon has four moves
         # user selects a move 
         # returns this move
