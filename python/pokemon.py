@@ -1,5 +1,5 @@
 class Pokemon:
-   def __init__(self):
+   def __init__(self, stats, moves):
       self.pokemon_name = ""
       self.pokemon_hp = 0
       self.pokemon_atk = 0
@@ -7,23 +7,23 @@ class Pokemon:
       self.pokemon_spa = 0
       self.pokemon_spd = 0
       self.pokemon_spe = 0
-      self.moves = []
-
+      self.moves = [moves]
+      
     #move function
-    def move(self):
-        # moves dictionary is appended so a Pokemon has four moves
-        # user selects a move 
-        # returns this move
+    # def move(self):
+    #     # user selects a move 
+    #     # print(self)
+    #     # returns this move
 
-    #take_damage function
-    def take_damage(self, move):
+    # #take_damage function
+    # def take_damage(self, move):
     
-    #switch function
-    def switch(self):
+    # #switch function
+    # def switch(self):
     
-    #game_over function
-    def game_over(self):
+    # #game_over function
+    # def game_over(self):
 
-    #heal function
+    # #heal function
 
     
