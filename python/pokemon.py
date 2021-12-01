@@ -1,6 +1,16 @@
+class Moves:
+  def __repr__(self):
+   return f"{self.name}"
+
+  def __init__(self, moves):
+    self.name = moves["name"]
+    self.accuracy = moves["accuracy"]
+    self.basepower = moves["basePower"]
+    self.pp = moves["pp"]
+
 class Pokemon:
-  def __str__(self):
-   return f"Name: {self.name}"
+  def __repr__(self):
+   return f"{self.name}"
   #  return f"Name: {self.name}, HP: {self.pokemon_hp}, MOVES: {self.moves}"
   
   def __init__(self, stats, moves):
