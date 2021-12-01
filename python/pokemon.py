@@ -32,12 +32,6 @@ class Pokemon:
   # #take_damage function
   def take_damage(self, p1, p2, move):
     damage = (((move["basePower"]*(p1.atk/p2.defe))/50)+2)
-  
-  # #switch function
-  # def switch(self):
-  
-  # #game_over function
-  # def game_over(self):
 
   # #heal function
 
