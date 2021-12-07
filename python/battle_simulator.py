@@ -71,6 +71,7 @@ class Battle:
       move_selection = input("Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
       current_move = self.pokemon.moves[int(move_selection) - 1]
       self.pokemon.move(current_move, self.pokemon2)
+      print("Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
       self.cpu_check_health()
 
    def switch_pokemon(self):
