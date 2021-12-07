@@ -11,7 +11,6 @@ class Moves:
 class Pokemon:
   def __repr__(self):
    return f"{self.name}"
-  #  return f"Name: {self.name}, HP: {self.pokemon_hp}, MOVES: {self.moves}"
   
   def __init__(self, stats, moves):
     self.name = stats["name"]
