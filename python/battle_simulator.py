@@ -22,8 +22,8 @@ class Battle:
       player1p1 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
       player1p2 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
 
-      player2p1 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
-      player2p2 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
+      player2p1 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
+      player2p2 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
 
       #automate pokemon_team list so the list can have every pokemon no the team 
       self.pokemon_team = [player1p1, player1p2]
@@ -40,8 +40,10 @@ class Battle:
          input("Welcome to the Pokémon Battle Simulator. Press enter to continue ")
          if self.pokemon.spe > self.pokemon2.spe:
             self.user_selection()
-         elif self.pokemon2.spe > self.pokemon.spe:
+         elif self.pokemon.spe < self.pokemon2.spe:
             self.cpu_selection()
+         elif self.pokemon.spe == self.pokemon2.spe:
+            self.user_selection()
       
       self.check_win()
 
