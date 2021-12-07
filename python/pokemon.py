@@ -24,14 +24,14 @@ class Pokemon:
     self.moves = moves
   
   # move function
-  # def move(self, move):
-      # user selects a move
-      # print(self)
-      # returns this move
+  def move(self, move, p2):
+    damage = self.take_damage(p2, move)
+    p2.hp = p2.hp - damage
 
   # #take_damage function
-  def take_damage(self, p1, p2, move):
-    damage = (((move["basePower"]*(p1.atk/p2.defe))/50)+2)
+  def take_damage(self, p2, move):
+    damage = (((move["basePower"]*(self.atk/p2.defe))/50)+2)
+    return damage
 
   # #heal function
 
