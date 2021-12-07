@@ -69,7 +69,8 @@ class Battle:
    
    def attack_pokemon(self):
       move_selection = input("Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-      self.pokemon.move(move_selection, self.current_pokemon2)
+      current_move = self.pokemon.moves[int(move_selection) - 1]
+      self.pokemon.move(current_move, self.pokemon2)
       self.cpu_check_health()
 
    def switch_pokemon(self):
@@ -101,7 +102,7 @@ class Battle:
    
    def cpu_attack_pokemon(self):
       cpu_random_move = random.choice(self.pokemon2.moves)
-      self.pokemon2.move(cpu_random_move, self.current_pokemon)
+      self.pokemon2.move(cpu_random_move, self.pokemon)
       self.check_health()
 
    def cpu_switch_pokemon(self):

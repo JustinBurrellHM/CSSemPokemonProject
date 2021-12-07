@@ -30,7 +30,7 @@ class Pokemon:
 
   # #take_damage function
   def take_damage(self, p2, move):
-    damage = (((move["basePower"]*(self.atk/p2.defe))/50)+2)
+    damage = (((move.basepower*(self.atk/p2.defe))/50)+2)
     return damage
 
   # #heal function
