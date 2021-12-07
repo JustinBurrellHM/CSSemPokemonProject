@@ -81,7 +81,7 @@ class Battle:
 
       #check for team
          if len(self.pokemon_team) == 0:
-            self.game_over = False
+            self.game_over = True
    
    #cpu-based functions
    def cpu_selection(self):
@@ -111,7 +111,7 @@ class Battle:
 
       #check for team
          if len(self.pokemon_team) == 0:
-            self.game_over = False
+            self.game_over = True
 
    def check_win(self):
       #if cpu won
