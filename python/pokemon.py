@@ -21,7 +21,7 @@ class Pokemon:
     self.spa = stats["baseStats"]["spa"]
     self.spd = stats["baseStats"]["spd"]
     self.spe = stats["baseStats"]["spe"]
-    self.moves = [moves]
+    self.moves = moves
   
   # move function
   # def move(self, move):

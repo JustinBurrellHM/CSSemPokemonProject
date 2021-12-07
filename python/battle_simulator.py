@@ -26,23 +26,29 @@ def interface():
    current_pokemon2 = 0
    pokemon = pokemon_team[current_pokemon]
    pokemon2 = pokemon_team2[current_pokemon2]
-   game_over = False
+   game_over = False 
 
    while game_over == False:
       input("Welcome to the Pokémon Battle Simulator. Press enter to continue ")
       selection = input("Here is the battle situation: " + pokemon.name + " versus " + pokemon2.name + ".\n" + "Your " + pokemon.name + " has " + str(pokemon.hp) + " HP. The opponent's " + pokemon2.name + " has " + str(pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
 
       if selection == "A":
-         move_selection = input("Pick your move:\n" + str(pokemon.moves))
+         move_selection = input("Pick your move:\n" + print_list(pokemon.moves) + " ")
          pokemon.move(move_selection)
          
          #check for health
+         if pokemon.hp == 0:
+            del pokemon_team[current_pokemon]
+            dead_pokemon_switch = input("Your " + pokemon.name + " has died. You have " + str(len(pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to.")
+            current_pokemon = int(dead_pokemon_switch) - 1
+            pokemon = pokemon_team[current_pokemon]
 
          #check for team
 
       elif selection == "S":
          switch_selection = input("Here is you team:\n" + print_list(pokemon_team) + "\n" + "You have " + str(len(pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
-         current_pokemon == int(switch_selection) - 1
+         current_pokemon = int(switch_selection) - 1
+         pokemon = pokemon_team[current_pokemon]
       
    print("Game Over!")
 
