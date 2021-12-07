@@ -13,6 +13,7 @@ class Battle:
       self.game_over = False
       self.pokemon_team = []
       self.pokemon_team2 = []
+      self.round_counter = 1
 
       with open('../json/pokedex.json') as f:
          pokedex = json.load(f)
@@ -38,9 +39,8 @@ class Battle:
       self.pokemon2 = self.pokemon_team2[self.current_pokemon2]
 
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
-      round_counter = 1
       while self.game_over == False:
-         input("./n" + "This is Round #" + str(round_counter) + ". Click enter to continue ")
+         input("\n" + "This is Round #" + str(self.round_counter) + ". Click enter to continue ")
          if self.pokemon.spe > self.pokemon2.spe:
             self.user_selection()
             self.cpu_selection()
@@ -56,7 +56,7 @@ class Battle:
             if random_speed_counter == 1:
                self.cpu_selection()
                self.user_selection()
-         round_counter += 1
+         self.round_counter += 1
       self.check_win()
 
    def print_list(self, l):
@@ -138,10 +138,10 @@ class Battle:
    def check_win(self):
       #if cpu won
       if len(self.pokemon_team) == 0:
-         print("\n" + "Game Over! You Lose!")
+         print("\n" + "Game Over! You Lost in " + self.round_counter + " rounds.")
       #if user won
       elif len(self.pokemon_team2) == 0:
-         print("\n" + "Game Over! You Win!")
+         print("\n" + "Game Over! You Won in " + self.round_counter + " rounds.")
 
 game = Battle()
 game.interface()
