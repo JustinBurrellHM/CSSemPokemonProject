@@ -3,6 +3,9 @@ import random
 from pokemon import Pokemon
 from pokemon import Moves
 
+#main branch - current updated verison
+#battle_sim2.0 - working on new features
+
 class Battle:
    def __init__(self):
       self.pokedex = None
