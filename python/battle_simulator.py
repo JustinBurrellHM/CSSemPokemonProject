@@ -144,4 +144,4 @@ class Battle:
          print("\n" + "Game Over! You Won in " + self.round_counter + " rounds.")
 
 game = Battle()
-game.interface()
+game.interface() 
