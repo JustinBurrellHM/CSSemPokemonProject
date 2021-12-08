@@ -31,8 +31,6 @@ class Battle:
       self.pokemon_team = [player1p1, player1p2]
 
       self.pokemon_team2 = [player2p1, player2p2]
-   
-   def queue(self):
 
    def interface(self):
       self.current_pokemon = 0
