@@ -2,6 +2,7 @@ import json
 import random
 from pokemon import Pokemon
 from pokemon import Moves
+from queue import PriorityQueue
 
 class Battle:
    def __init__(self):
@@ -14,6 +15,7 @@ class Battle:
       self.pokemon_team = []
       self.pokemon_team2 = []
       self.round_counter = 1
+      self.prio_queue = PriorityQueue()
 
       with open('../json/pokedex.json') as f:
          pokedex = json.load(f)
@@ -32,7 +34,6 @@ class Battle:
 
       self.pokemon_team2 = [player2p1, player2p2]
    
-   def queue(self):
 
    def interface(self):
       self.current_pokemon = 0
