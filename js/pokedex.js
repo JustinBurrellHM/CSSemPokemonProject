@@ -1,4 +1,4 @@
-export const Pokedex: {[speciesid: string]: SpeciesData} = {
+module.exports = {
 	bulbasaur: {
 		num: 1,
 		name: "Bulbasaur",
