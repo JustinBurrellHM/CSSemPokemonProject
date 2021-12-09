@@ -26,7 +26,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 
 */
 
-export const Moves: {[moveid: string]: MoveData} = {
+export const Moves = {
 	"10000000voltthunderbolt": {
 		num: 719,
 		accuracy: true,
