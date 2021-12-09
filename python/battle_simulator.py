@@ -20,6 +20,11 @@ class Battle:
 
       with open('../json/moves.json') as f:
          moves = json.load(f)
+      
+      #randomly generate CPU team
+      #randomly generate pokemon
+      # i = 0 
+      # for i in 5:
 
       player1p1 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
       player1p2 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
@@ -35,7 +40,7 @@ class Battle:
    '''
    def queue(self):
    '''
-   
+
    def interface(self):
       self.current_pokemon = 0
       self.current_pokemon2 = 0
