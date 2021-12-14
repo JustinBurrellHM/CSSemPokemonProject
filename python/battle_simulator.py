@@ -155,6 +155,8 @@ class Battle:
 
       #check for team
          
+            
+
    def check_win(self):
       #if cpu won
       if len(self.pokemon_team) == 0:
