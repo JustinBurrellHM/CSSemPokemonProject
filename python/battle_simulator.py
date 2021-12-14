@@ -100,7 +100,7 @@ class Battle:
    
    def check_health(self):
       #check for health
-         if self.pokemon.hp == 0:
+         if self.pokemon.hp <= 0:
             dead_pokemon_name = self.pokemon.name
             del self.pokemon_team[self.current_pokemon]
             dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has died. You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to.")
