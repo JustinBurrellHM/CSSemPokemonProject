@@ -22,11 +22,6 @@ class Battle:
 
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/moves.json') as f:
          self.moves = json.load(f)
-      
-      #randomly generate CPU team
-      #randomly generate pokemon
-      # i = 0 
-      # for i in 5:
 
       player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
       player1p2 = Pokemon(self.pokedex["venusaur"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
@@ -41,13 +36,18 @@ class Battle:
    '''
    def queue(self):
    '''
-   def generate_pokemon(self, x):
-      moves_list = []
+   def generate_pokemon(self, num_pokemon):
       pokemon_team_list = []
-      for i in range(0,x):
-         random_pokemon_move_names = random.sample(list(self.moves), 4)
+      for _ in range(0,num_pokemon):
+         moves_list = []
+         random_pokemon_move_names = []
+         for _ in range(0,4):
+            random_pokemon_move_name = random.choice(list(self.moves))
+            while self.moves[random_pokemon_move_name][str("basePower")] == 0:
+               random_pokemon_move_name = random.choice(list(self.moves))
+            random_pokemon_move_names.append(random_pokemon_move_name)
          for i in random_pokemon_move_names:
-            random_pokemon_move = self.moves[i]
+            random_pokemon_move = Moves(self.moves[i])
             moves_list.append(random_pokemon_move)
          random_pokemon_name = random.choice(list(self.pokedex))
          random_pokemon_json = self.pokedex[random_pokemon_name]
