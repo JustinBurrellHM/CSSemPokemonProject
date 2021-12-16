@@ -31,14 +31,22 @@ class Battle:
       player1p1 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
       player1p2 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
 
-      player2p1 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
-      player2p2 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
-
       #automate pokemon_team list so the list can have every pokemon no the team 
       self.pokemon_team = [player1p1, player1p2]
+      # for i in range(0,19):
+      #    poke = Pokemon(random.choice(pokedex), moves_list)
 
-      self.pokemon_team2 = [player2p1, player2p2]
-   
+      self.pokemon_team2 = []
+      moves_list = []
+
+      for i in range(0,5):
+         random_pokemon_moves = random.sample(moves, 4)
+         for i in random_pokemon_moves:
+            Moves(i)
+            moves_list.append(i)
+         poke = Pokemon(random.choice(pokedex), moves_list)
+         self.pokedex_team2.append(poke)
+
    '''
    def queue(self):
    '''
@@ -53,22 +61,37 @@ class Battle:
       while self.game_over == False:
          input("\n" + "This is Round #" + str(self.round_counter) + ". Click enter to continue ")
          #code so cpu has already decided whether it wants to attack or switch
-
          if self.pokemon.spe > self.pokemon2.spe:
             self.user_selection()
+            if self.game_over == True:
+               break
             self.cpu_selection()
+            if self.game_over == True:
+               break
          elif self.pokemon.spe < self.pokemon2.spe:
             self.cpu_selection()
+            if self.game_over == True:
+               break
             self.user_selection()
+            if self.game_over == True:
+               break
          elif self.pokemon.spe == self.pokemon2.spe:
             #add randomness, a 50/50 chance for who goes first
             random_speed_counter = random.randint(0,1)
             if random_speed_counter == 0:
                self.user_selection()
+               if self.game_over == True:
+                  break
                self.cpu_selection()
+               if self.game_over == True:
+                  break
             if random_speed_counter == 1:
                self.cpu_selection()
+               if self.game_over == True:
+                  break
                self.user_selection()
+               if self.game_over == True:
+                  break
          self.round_counter += 1
       self.check_win()
 
@@ -133,13 +156,15 @@ class Battle:
       print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
       self.check_health()
 
-   def cpu_switch_pokemon(self):
+   def cpu_switch_pokemon(self, fainted = False):
       cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
       while cpu_random_switches == self.current_pokemon2:
          cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
       self.current_pokemon2 = cpu_random_switches
       self.pokemon2 = self.pokemon_team2[self.current_pokemon2]
-      print("\n" + "The CPU just switched to " + self.pokemon2.name + " !")
+      if fainted == False:
+         print("\n" + "The CPU just switched to " + self.pokemon2.name + " !")
+   
    
    def cpu_check_health(self):
       #check for health
@@ -150,20 +175,19 @@ class Battle:
             self.game_over = True
          else:
             self.current_pokemon2 = -1
-            self.cpu_switch_pokemon()
+            self.cpu_switch_pokemon(True)
             print("\n" + "The CPUs' " + dead_pokemon_name2 + " has fainted! They switched to " + self.pokemon2.name)
 
       #check for team
          
             
-
    def check_win(self):
       #if cpu won
       if len(self.pokemon_team) == 0:
-         print("\n" + "Game Over! You Lost in " + int(self.round_counter) + " rounds.")
+         print("\n" + "Game Over! You Lost in " + str(self.round_counter) + " rounds.")
       #if user won
       elif len(self.pokemon_team2) == 0:
-         print("\n" + "Game Over! You Won in " + int(self.round_counter) + " rounds.")
+         print("\n" + "Game Over! You Won in " + str(self.round_counter) + " rounds.")
 
 game = Battle()
 game.interface() 

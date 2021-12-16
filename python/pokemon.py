@@ -1,8 +1,9 @@
+import random
 class Moves:
   def __repr__(self):
    return f"{self.name}"
 
-  def __init__(self, moves):
+  def __init__(self, moves, x):
     self.name = moves["name"]
     self.accuracy = moves["accuracy"]
     self.basepower = moves["basePower"]
