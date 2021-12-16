@@ -18,38 +18,42 @@ class Battle:
       self.prio_queue = PriorityQueue()
 
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
-         pokedex = json.load(f)
+         self.pokedex = json.load(f)
 
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/moves.json') as f:
-         moves = json.load(f)
+         self.moves = json.load(f)
       
       #randomly generate CPU team
       #randomly generate pokemon
       # i = 0 
       # for i in 5:
 
-      player1p1 = Pokemon(pokedex["zaciancrowned"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
-      player1p2 = Pokemon(pokedex["venusaur"], [Moves(moves["quickattack"]), Moves(moves["closecombat"])])
+      player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
+      player1p2 = Pokemon(self.pokedex["venusaur"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
 
       #automate pokemon_team list so the list can have every pokemon no the team 
-      self.pokemon_team = [player1p1, player1p2]
-      # for i in range(0,19):
-      #    poke = Pokemon(random.choice(pokedex), moves_list)
-
+      self.pokemon_team = []
+      self.pokemon_team = self.generate_pokemon(5)
+      
       self.pokemon_team2 = []
-      moves_list = []
-
-      for i in range(0,5):
-         random_pokemon_moves = random.sample(moves, 4)
-         for i in random_pokemon_moves:
-            Moves(i)
-            moves_list.append(i)
-         poke = Pokemon(random.choice(pokedex), moves_list)
-         self.pokedex_team2.append(poke)
+      self.pokemon_team2 = self.generate_pokemon(5)
 
    '''
    def queue(self):
    '''
+   def generate_pokemon(self, x):
+      moves_list = []
+      pokemon_team_list = []
+      for i in range(0,x):
+         random_pokemon_move_names = random.sample(list(self.moves), 4)
+         for i in random_pokemon_move_names:
+            random_pokemon_move = self.moves[i]
+            moves_list.append(random_pokemon_move)
+         random_pokemon_name = random.choice(list(self.pokedex))
+         random_pokemon_json = self.pokedex[random_pokemon_name]
+         random_pokemon = Pokemon(random_pokemon_json, moves_list)
+         pokemon_team_list.append(random_pokemon)
+      return pokemon_team_list
 
    def interface(self):
       self.current_pokemon = 0
