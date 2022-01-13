@@ -169,7 +169,6 @@ class Battle:
       if fainted == False:
          print("\n" + "The CPU just switched to " + self.pokemon2.name + " !")
    
-   
    def cpu_check_health(self):
       #check for health
       if self.pokemon2.hp <= 0:
@@ -184,7 +183,6 @@ class Battle:
 
       #check for team
          
-            
    def check_win(self):
       #if cpu won
       if len(self.pokemon_team) == 0:
