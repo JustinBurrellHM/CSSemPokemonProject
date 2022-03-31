@@ -4,8 +4,6 @@ Pokémon is a battle simulator where players compete aganist one another or agan
 
 In this simulator, your player starts off in the Horace Mann region. After picking a starter Pokémon, you can navigate the region, fight aganist fighters, and even stop Team Rocket. All this is done in an attempt to beat the elite four and finally Pokémon Master Lee to become the Pokémon Master of Horace Mann.
 
-Think you have what it takes? Start your jounrey today!
-
 ### Features
 - Simulate a Pokémon battle using the  **Battle Simulator** engine, competing aganist CPU opponents and teams throughout the game
 - Enjoy **RPG Elements** as you explore the Horace Mann region, catch Pokémon, and compete aganist Team Rocket.
