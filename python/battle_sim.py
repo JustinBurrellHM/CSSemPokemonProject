@@ -1,8 +1,10 @@
 import json
 import random
+from CSSemPokemonProject.python.battlequeue import Battlequeue
 from pokemon import Pokemon
 from pokemon import Moves
 from queue import PriorityQueue
+from battlequeue import Battlequeue
 
 class Battle:
    def __init__(self):
@@ -17,10 +19,10 @@ class Battle:
       self.round_counter = 1
       self.prio_queue = PriorityQueue()
 
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
+      with open('../json/pokedex.json') as f:
          self.pokedex = json.load(f)
 
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/moves.json') as f:
+      with open('../json/moves.json') as f:
          self.moves = json.load(f)
 
       player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
@@ -113,9 +115,16 @@ class Battle:
          self.switch_pokemon()
    
    def attack_pokemon(self):
+      #saves input into the queue
       move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
+      
+      #saves move input
+      Battlequeue.option(move_selection)
       current_move = self.pokemon.moves[int(move_selection) - 1]
-      self.pokemon.move(current_move, self.pokemon2)
+
+      #saves move actually happening
+      Battlequeue.option(futuremove)
+      futuremove = self.pokemon.move(current_move, self.pokemon2)
       print("\n" + "Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
       self.cpu_check_health()
 
