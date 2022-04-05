@@ -1,3 +1,6 @@
+from random import randint
+
+
 class Moves:
   def __repr__(self):
    return f"{self.name}"
@@ -20,6 +23,7 @@ class Pokemon:
     self.spa = stats["baseStats"]["spa"]
     self.spd = stats["baseStats"]["spd"]
     self.spe = stats["baseStats"]["spe"]
+    self.type = [stats["types"]]
     self.moves = moves
   
   # move function
@@ -29,7 +33,20 @@ class Pokemon:
 
   # #take_damage functionacs
   def take_damage(self, p2, move):
-    damage = (((move.basepower*(self.atk/p2.defe))/50)+2)
+
+    #critical hit
+    x = randint(1, 25)
+    if x == 24:
+      crit = 1.5
+    else:
+      crit = 1
+
+    #random factor
+    y = randint(85,101)
+    random = y/100
+
+
+    damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random
     return damage
 
   # #heal function
