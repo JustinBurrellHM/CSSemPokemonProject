@@ -5,6 +5,7 @@ from pokemon import Pokemon
 from pokemon import Moves
 from queue import PriorityQueue
 from battlequeue import Battlequeue
+from option import Option
 
 class Battle:
    def __init__(self):
@@ -117,16 +118,38 @@ class Battle:
    def attack_pokemon(self):
       #saves input into the queue
       move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-      
       #saves move input
-      Battlequeue.option(move_selection)
+      attack_option = Option("User", "Attack", self.pokemon, move_selection)
+
+      
+      # Battlequeue.option(move_selection)
       current_move = self.pokemon.moves[int(move_selection) - 1]
 
-      #saves move actually happening
-      Battlequeue.option(futuremove)
-      futuremove = self.pokemon.move(current_move, self.pokemon2)
+      self.pokemon.move(current_move, self.pokemon2)
       print("\n" + "Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
       self.cpu_check_health()
+   
+
+   def get_option(self):
+      #ask user if they want to attack or switch
+         #ask user to attack 
+         #or switch
+      #make an option object
+      #save option to battlequeue class
+
+      #generate cpu move
+         #attack
+         #or switch
+      #make an option object
+      #save option to battlequeue class
+   
+   def process_options(self):
+
+   def cpu_attack_pokemon(self):
+      cpu_random_move = random.choice(self.pokemon2.moves)
+      self.pokemon2.move(cpu_random_move, self.pokemon)
+      print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
+      self.check_health()
 
    def switch_pokemon(self, n = -1):
       if n == -1:
@@ -163,11 +186,7 @@ class Battle:
       else:
          self.cpu_switch_pokemon()
    
-   def cpu_attack_pokemon(self):
-      cpu_random_move = random.choice(self.pokemon2.moves)
-      self.pokemon2.move(cpu_random_move, self.pokemon)
-      print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
-      self.check_health()
+  
 
    def cpu_switch_pokemon(self, fainted = False):
       cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
