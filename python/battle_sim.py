@@ -71,37 +71,10 @@ class Battle:
       while self.game_over == False:
          input("\n" + "This is Round #" + str(self.round_counter) + ". Click enter to continue ")
          #code so cpu has already decided whether it wants to attack or switch
-         if self.pokemon.spe > self.pokemon2.spe:
-            self.user_selection()
-            if self.game_over == True:
+         self.get_option()
+         self.process_options()
+         if self.game_over == True:
                break
-            self.cpu_selection()
-            if self.game_over == True:
-               break
-         elif self.pokemon.spe < self.pokemon2.spe:
-            self.cpu_selection()
-            if self.game_over == True:
-               break
-            self.user_selection()
-            if self.game_over == True:
-               break
-         elif self.pokemon.spe == self.pokemon2.spe:
-            #add randomness, a 50/50 chance for who goes first
-            random_speed_counter = random.randint(0,1)
-            if random_speed_counter == 0:
-               self.user_selection()
-               if self.game_over == True:
-                  break
-               self.cpu_selection()
-               if self.game_over == True:
-                  break
-            if random_speed_counter == 1:
-               self.cpu_selection()
-               if self.game_over == True:
-                  break
-               self.user_selection()
-               if self.game_over == True:
-                  break
          self.round_counter += 1
       self.check_win()
 
@@ -110,15 +83,7 @@ class Battle:
       seperator = ", "
       return seperator.join(string_pokemon)
 
-   #user-based functions
-   def user_selection(self):
-      selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
-      if selection == "A":
-         self.get_option()
-         self.attack_pokemon()
-      elif selection == "S":
-         self.switch_pokemon()
-   
+   #user-based functions 
    def attack_pokemon(self):
       #saves input into the queue
       move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
@@ -133,7 +98,6 @@ class Battle:
       print("\n" + "Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
       self.cpu_check_health()
    
-
    def get_option(self):
       #ask user if they want to attack or switchb
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
@@ -141,31 +105,28 @@ class Battle:
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
          attack_option = Option("User", "Attack", self.pokemon, self.pokemon.moves[int(move_selection) -1])
          #save option to battlequeue class
-         self.pq.save(option)
+         self.battlequeue.save(attack_option)
       elif selection == "S":
          switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
          switch_option = Option("User", "Switch", self.pokemon, int(switch_selection) -1)
          #save option to battlequeue class
-         self.pq.save(option)
+         self.battlequeue.save(switch_option)
          #or switch   
 
       #generate cpu move
+      selection = input("\n" + "The CPU is deciding its move. Click enter to continue. ")
       random_cpu_selection = random.randint(0,100)
       #percent chances for whether or not cpu attacks or switches
       if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
          attack_option = Option("CPU", "Attack", self.pokemon2, cpu_random_move)
-         self.pq.save(option)
+         self.battlequeue.save(attack_option)
       else:
          cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
          while cpu_random_switches == self.current_pokemon2:
             cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
          switch_option = Option("CPU", "Switch", self.pokemon2, cpu_random_switches)
-         self.pq.save(option)
-         #attack
-         #or switch
-      #make an option object
-      #save option to battlequeue class
+         self.battlequeue.save(switch_option)
    
    def process_options(self):
       pass
@@ -201,18 +162,6 @@ class Battle:
          
    
    #cpu-based functions
-   def cpu_selection(self):
-      selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "The CPU is deciding its move. Click enter to continue. ")
-      random_cpu_selection = random.randint(0,100)
-      #percent chances for whether or not cpu attacks or switches
-      if random_cpu_selection < 101:
-         self.cpu_attack_pokemon()
-
-      else:
-         self.cpu_switch_pokemon()
-   
-  
-
    def cpu_switch_pokemon(self, fainted = False):
       cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
       while cpu_random_switches == self.current_pokemon2:

@@ -1,0 +1,31 @@
+if self.pokemon.spe > self.pokemon2.spe:
+            self.user_selection()
+            if self.game_over == True:
+               break
+            self.cpu_selection()
+            if self.game_over == True:
+               break
+         elif self.pokemon.spe < self.pokemon2.spe:
+            self.cpu_selection()
+            if self.game_over == True:
+               break
+            self.user_selection()
+            if self.game_over == True:
+               break
+         elif self.pokemon.spe == self.pokemon2.spe:
+            #add randomness, a 50/50 chance for who goes first
+            random_speed_counter = random.randint(0,1)
+            if random_speed_counter == 0:
+               self.user_selection()
+               if self.game_over == True:
+                  break
+               self.cpu_selection()
+               if self.game_over == True:
+                  break
+            if random_speed_counter == 1:
+               self.cpu_selection()
+               if self.game_over == True:
+                  break
+               self.user_selection()
+               if self.game_over == True:
+                  break
