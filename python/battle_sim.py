@@ -132,12 +132,32 @@ class Battle:
 
    def get_option(self):
       #ask user if they want to attack or switch
-         #ask user to attack 
-         #or switch
-      #make an option object
-      #save option to battlequeue class
+      selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
+      if selection == "A":
+         move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
+         attack_option = Option("User", "Attack", self.pokemon, move_selection)
+         #save option to battlequeue class
+         self.pq.save(option)
+      elif selection == "S":
+         switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
+         switch_option = Option("User", "Switch", self.pokemon, switch_selection)
+         #save option to battlequeue class
+         self.pq.save(option)
+         #or switch   
 
       #generate cpu move
+      random_cpu_selection = random.randint(0,100)
+      #percent chances for whether or not cpu attacks or switches
+      if random_cpu_selection < 70:
+         cpu_random_move = random.choice(self.pokemon2.moves)
+         attack_option = Option("CPU", "Attack", self.pokemon, cpu_random_move)
+         self.pq.save(option)
+      else:
+         cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
+         while cpu_random_switches == self.current_pokemon2:
+            cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
+         switch_option = Option("CPU", "Switch", self.pokemon2, cpu_random_switches)
+         self.pq.save(option)
          #attack
          #or switch
       #make an option object
