@@ -30,7 +30,7 @@ class Pokemon:
     self.types = None
     self.moves = moves
 
-    with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/types.json') as f:
+    with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/types.json') as f:
       self.types = json.load(f)
   
   # move function

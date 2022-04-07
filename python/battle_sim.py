@@ -1,6 +1,7 @@
+from code import interact
 import json
 import random
-from CSSemPokemonProject.python.battlequeue import Battlequeue
+from battlequeue import Battlequeue
 from pokemon import Pokemon
 from pokemon import Moves
 from queue import PriorityQueue
@@ -20,10 +21,12 @@ class Battle:
       self.round_counter = 1
       self.prio_queue = PriorityQueue()
 
-      with open('../json/pokedex.json') as f:
+      # with open('../json/pokedex.json') as f:
+      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
          self.pokedex = json.load(f)
 
-      with open('../json/moves.json') as f:
+      # with open('../json/moves.json') as f:
+      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/moves.json') as f:
          self.moves = json.load(f)
 
       player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
@@ -111,6 +114,7 @@ class Battle:
    def user_selection(self):
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
       if selection == "A":
+         self.get_option()
          self.attack_pokemon()
       elif selection == "S":
          self.switch_pokemon()
@@ -131,16 +135,16 @@ class Battle:
    
 
    def get_option(self):
-      #ask user if they want to attack or switch
+      #ask user if they want to attack or switchb
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
       if selection == "A":
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-         attack_option = Option("User", "Attack", self.pokemon, move_selection)
+         attack_option = Option("User", "Attack", self.pokemon, self.pokemon.moves[int(move_selection) -1])
          #save option to battlequeue class
          self.pq.save(option)
       elif selection == "S":
          switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
-         switch_option = Option("User", "Switch", self.pokemon, switch_selection)
+         switch_option = Option("User", "Switch", self.pokemon, int(switch_selection) -1)
          #save option to battlequeue class
          self.pq.save(option)
          #or switch   
@@ -150,7 +154,7 @@ class Battle:
       #percent chances for whether or not cpu attacks or switches
       if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
-         attack_option = Option("CPU", "Attack", self.pokemon, cpu_random_move)
+         attack_option = Option("CPU", "Attack", self.pokemon2, cpu_random_move)
          self.pq.save(option)
       else:
          cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
@@ -164,6 +168,7 @@ class Battle:
       #save option to battlequeue class
    
    def process_options(self):
+      pass
 
    def cpu_attack_pokemon(self):
       cpu_random_move = random.choice(self.pokemon2.moves)

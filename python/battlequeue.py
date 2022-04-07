@@ -7,7 +7,7 @@ class Battlequeue:
         if option.move_type == "Switch":
             return -6
         else:
-             
+            battle 
 
     def save(self, option):
         pq.put
