@@ -1,8 +1,11 @@
 import json
 import random
+from CSSemPokemonProject.python.battlequeue import Battlequeue
 from pokemon import Pokemon
 from pokemon import Moves
 from queue import PriorityQueue
+from battlequeue import Battlequeue
+from option import Option
 
 class Battle:
    def __init__(self):
@@ -17,10 +20,10 @@ class Battle:
       self.round_counter = 1
       self.prio_queue = PriorityQueue()
 
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
+      with open('../json/pokedex.json') as f:
          self.pokedex = json.load(f)
 
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Sem1/Semester Project/CSSemPokemonProject/json/moves.json') as f:
+      with open('../json/moves.json') as f:
          self.moves = json.load(f)
 
       player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
@@ -113,11 +116,60 @@ class Battle:
          self.switch_pokemon()
    
    def attack_pokemon(self):
+      #saves input into the queue
       move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
+      #saves move input
+      attack_option = Option("User", "Attack", self.pokemon, move_selection)
+
+      
+      # Battlequeue.option(move_selection)
       current_move = self.pokemon.moves[int(move_selection) - 1]
+
       self.pokemon.move(current_move, self.pokemon2)
       print("\n" + "Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
       self.cpu_check_health()
+   
+
+   def get_option(self):
+      #ask user if they want to attack or switch
+      selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
+      if selection == "A":
+         move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
+         attack_option = Option("User", "Attack", self.pokemon, move_selection)
+         #save option to battlequeue class
+         self.pq.save(option)
+      elif selection == "S":
+         switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
+         switch_option = Option("User", "Switch", self.pokemon, switch_selection)
+         #save option to battlequeue class
+         self.pq.save(option)
+         #or switch   
+
+      #generate cpu move
+      random_cpu_selection = random.randint(0,100)
+      #percent chances for whether or not cpu attacks or switches
+      if random_cpu_selection < 70:
+         cpu_random_move = random.choice(self.pokemon2.moves)
+         attack_option = Option("CPU", "Attack", self.pokemon, cpu_random_move)
+         self.pq.save(option)
+      else:
+         cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
+         while cpu_random_switches == self.current_pokemon2:
+            cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
+         switch_option = Option("CPU", "Switch", self.pokemon2, cpu_random_switches)
+         self.pq.save(option)
+         #attack
+         #or switch
+      #make an option object
+      #save option to battlequeue class
+   
+   def process_options(self):
+
+   def cpu_attack_pokemon(self):
+      cpu_random_move = random.choice(self.pokemon2.moves)
+      self.pokemon2.move(cpu_random_move, self.pokemon)
+      print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
+      self.check_health()
 
    def switch_pokemon(self, n = -1):
       if n == -1:
@@ -154,11 +206,7 @@ class Battle:
       else:
          self.cpu_switch_pokemon()
    
-   def cpu_attack_pokemon(self):
-      cpu_random_move = random.choice(self.pokemon2.moves)
-      self.pokemon2.move(cpu_random_move, self.pokemon)
-      print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
-      self.check_health()
+  
 
    def cpu_switch_pokemon(self, fainted = False):
       cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
