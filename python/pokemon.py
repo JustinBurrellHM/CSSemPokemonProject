@@ -40,7 +40,6 @@ class Pokemon:
 
   # #take_damage functionacs
   def take_damage(self, p2, move):
-
     #critical hit
     x = randint(1, 25)
     if x == 24:

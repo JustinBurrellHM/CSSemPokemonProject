@@ -129,7 +129,24 @@ class Battle:
          self.battlequeue.save(switch_option)
    
    def process_options(self):
-      pass
+      while self.battlequeue.length() > 0:
+         action = self.battlequeue.process()
+         #check to see if there is something in pq
+         if action == None:
+            break
+         #exceute move 
+         if action.agent == "User":
+            if action.move_type == "Attack":
+               self.pokemon.move(action.pokemon_move, self.pokemon2)
+               print("\n" + "Your " + self.pokemon.name + " just used " + str(action.pokemon_move) + " on " + self.pokemon2.name + "!")
+            elif action.move_type == 
+   
+   def process_options(self, pokemonA, pokemonM, pokemonD):
+      
+               
+
+
+
 
    def cpu_attack_pokemon(self):
       cpu_random_move = random.choice(self.pokemon2.moves)

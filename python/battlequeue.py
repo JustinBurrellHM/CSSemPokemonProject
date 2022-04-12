@@ -7,16 +7,27 @@ class Battlequeue:
         if option.move_type == "Switch":
             return -6
         else:
-            battle 
+            return -option.pokemon_move.priority 
 
     def save(self, option):
-        pq.put
-
+        self.pq.put(self.set_priotity(), option)
+    
+    def length(self):
+        return self.pq.qsize()
+    
+    def process(self):
+        try:
+            priority_option = self.pq.get_nowait()
+            return priority_option
+        except:
+            return None
+            
 '''
 pq = PriorityQueue()
 pq.put((0, absorb))
 pq.put((6, switch))#switch has to mean something
 pq.get()
+pq.get_nowait()
 '''
 
 
