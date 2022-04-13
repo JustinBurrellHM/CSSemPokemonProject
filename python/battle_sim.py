@@ -1,15 +1,14 @@
 from code import interact
 import json
 import random
-from battlequeue import Battlequeue
 from pokemon import Pokemon
 from pokemon import Moves
-from queue import PriorityQueue
 from battlequeue import Battlequeue
 from option import Option
 
 class Battle:
    def __init__(self):
+      self.bq = Battlequeue()
       self.pokedex = None
       self.moves = None
       self.current_pokemon = 0
@@ -19,7 +18,6 @@ class Battle:
       self.pokemon_team = []
       self.pokemon_team2 = []
       self.round_counter = 1
-      self.prio_queue = PriorityQueue()
 
       # with open('../json/pokedex.json') as f:
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
@@ -28,9 +26,6 @@ class Battle:
       # with open('../json/moves.json') as f:
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/moves.json') as f:
          self.moves = json.load(f)
-
-      player1p1 = Pokemon(self.pokedex["zaciancrowned"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
-      player1p2 = Pokemon(self.pokedex["venusaur"], [Moves(self.moves["quickattack"]), Moves(self.moves["closecombat"])])
 
       #automate pokemon_team list so the list can have every pokemon no the team 
       self.pokemon_team = []
@@ -103,14 +98,14 @@ class Battle:
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
       if selection == "A":
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-         attack_option = Option("User", "Attack", self.pokemon, self.pokemon.moves[int(move_selection) -1])
+         attack_option = Option(self.pokemon, self.pokemon_team, self.pokemon2, "Attack", self.pokemon, self.pokemon.moves[int(move_selection) -1])
          #save option to battlequeue class
-         self.battlequeue.save(attack_option)
+         self.bq.save(attack_option)
       elif selection == "S":
          switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
-         switch_option = Option("User", "Switch", self.pokemon, int(switch_selection) -1)
+         switch_option = Option(self.pokemon, self.pokemon_team, self.pokemon2, "Switch", self.pokemon, int(switch_selection) -1)
          #save option to battlequeue class
-         self.battlequeue.save(switch_option)
+         self.bq.save(switch_option)
          #or switch   
 
       #generate cpu move
@@ -119,34 +114,47 @@ class Battle:
       #percent chances for whether or not cpu attacks or switches
       if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
-         attack_option = Option("CPU", "Attack", self.pokemon2, cpu_random_move)
-         self.battlequeue.save(attack_option)
+         attack_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Attack", self.pokemon2, self.pokemon2.moves[int(move_selection) -1])
+         self.bq.save(attack_option)
       else:
          cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
          while cpu_random_switches == self.current_pokemon2:
             cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
-         switch_option = Option("CPU", "Switch", self.pokemon2, cpu_random_switches)
-         self.battlequeue.save(switch_option)
+         switch_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Switch", self.pokemon2, int(switch_selection) -1)
+
+         self.bq.save(switch_option)
    
    def process_options(self):
-      while self.battlequeue.length() > 0:
-         action = self.battlequeue.process()
+      while self.bq.length() > 0:
+         action = self.bq.process()
          #check to see if there is something in pq
          if action == None:
             break
          #exceute move 
-         if action.agent == "User":
-            if action.move_type == "Attack":
-               self.pokemon.move(action.pokemon_move, self.pokemon2)
-               print("\n" + "Your " + self.pokemon.name + " just used " + str(action.pokemon_move) + " on " + self.pokemon2.name + "!")
-            elif action.move_type == 
+         if action.move_type == "Attack":
+            self.process_attack(action.agent, action.target, action.pokemon_name, action.pokemon_move)
+         elif action.move_type == "Switch":
+            self.process_switch(action.agent, action.agent_team, action.pokemon_move)
+         
    
-   def process_options(self, pokemonA, pokemonM, pokemonD):
-      
-               
+   def process_attack(self, poke, pokemonA, pokemonM, pokemonD):
+      '''
+      poke = either pokemon or pokemon2
+      pokemonA = attacking pokemon
+      pokemonM = pokemon move
+      pokemonD = defending pokemon/getting attacked
+      '''
+      poke.move(pokemonM, pokemonD)
+      print("\n" + "Your " + pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
 
-
-
+   def process_switch(self, poke, poke_team, switch_index):
+      '''
+      poke = either pokemon or pokemon2
+      poke_team
+      switch_index = index 
+      '''
+      poke = poke_team[switch_index]
+      print("\n" + "You just switched to " + poke + " !")
 
    def cpu_attack_pokemon(self):
       cpu_random_move = random.choice(self.pokemon2.moves)

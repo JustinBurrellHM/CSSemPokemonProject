@@ -10,7 +10,8 @@ class Battlequeue:
             return -option.pokemon_move.priority 
 
     def save(self, option):
-        self.pq.put(self.set_priotity(), option)
+        priority_value = self.set_priotity(option)
+        self.pq.put(priority_value, option)
     
     def length(self):
         return self.pq.qsize()
