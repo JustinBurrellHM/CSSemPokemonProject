@@ -34,9 +34,6 @@ class Battle:
       self.pokemon_team2 = []
       self.pokemon_team2 = self.generate_pokemon(5)
 
-   '''
-   def queue(self):
-   '''
    def generate_pokemon(self, num_pokemon):
       pokemon_team_list = []
       for _ in range(0,num_pokemon):
@@ -112,15 +109,16 @@ class Battle:
       selection = input("\n" + "The CPU is deciding its move. Click enter to continue. ")
       random_cpu_selection = random.randint(0,100)
       #percent chances for whether or not cpu attacks or switches
-      if random_cpu_selection < 70:
+      if random_cpu_selection < 10:
+      # if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
-         attack_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Attack", self.pokemon2, self.pokemon2.moves[int(move_selection) -1])
+         attack_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Attack", self.pokemon2, cpu_random_move)
          self.bq.save(attack_option)
       else:
          cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
          while cpu_random_switches == self.current_pokemon2:
             cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
-         switch_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Switch", self.pokemon2, int(switch_selection) -1)
+         switch_option = Option(self.pokemon2, self.pokemon_team2, self.pokemon, "Switch", self.pokemon2, cpu_random_switches)
 
          self.bq.save(switch_option)
    
@@ -136,7 +134,6 @@ class Battle:
          elif action.move_type == "Switch":
             self.process_switch(action.agent, action.agent_team, action.pokemon_move)
          
-   
    def process_attack(self, poke, pokemonA, pokemonM, pokemonD):
       '''
       poke = either pokemon or pokemon2
@@ -153,6 +150,7 @@ class Battle:
       poke_team
       switch_index = index 
       '''
+      self.current_pokemon2 = cpu_random_switches
       poke = poke_team[switch_index]
       print("\n" + "You just switched to " + poke + " !")
 
@@ -185,7 +183,6 @@ class Battle:
                self.switch_pokemon(dead_pokemon_switch)
       #check for team
          
-   
    #cpu-based functions
    def cpu_switch_pokemon(self, fainted = False):
       cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
