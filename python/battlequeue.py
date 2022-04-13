@@ -11,7 +11,7 @@ class Battlequeue:
 
     def save(self, option):
         priority_value = self.set_priotity(option)
-        self.pq.put(priority_value, option)
+        self.pq.put((priority_value, option))
     
     def length(self):
         return self.pq.qsize()

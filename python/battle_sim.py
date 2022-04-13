@@ -11,13 +11,12 @@ class Battle:
       self.bq = Battlequeue()
       self.pokedex = None
       self.moves = None
-      self.current_pokemon = 0
+      self.current_pokemon = [0, 0]
       self.pokemon = None
       self.pokemon2 = None
       self.game_over = False
-      self.pokemon_team = []
-      self.pokemon_team2 = []
       self.round_counter = 1
+      self.master = []
 
       # with open('../json/pokedex.json') as f:
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
@@ -28,11 +27,13 @@ class Battle:
          self.moves = json.load(f)
 
       #automate pokemon_team list so the list can have every pokemon no the team 
-      self.pokemon_team = []
-      self.pokemon_team = self.generate_pokemon(5)
+      pokemon_team = []
+      pokemon_team = self.generate_pokemon(5)
+      self.master.append(pokemon_team)
       
-      self.pokemon_team2 = []
-      self.pokemon_team2 = self.generate_pokemon(5)
+      pokemon_team2 = []
+      pokemon_team2 = self.generate_pokemon(5)
+      self.master.append(pokemon_team2)
 
    def generate_pokemon(self, num_pokemon):
       pokemon_team_list = []
@@ -54,9 +55,7 @@ class Battle:
       return pokemon_team_list
 
    def interface(self):
-      self.current_pokemon = 0
-      self.current_pokemon2 = 0
-      self.pokemon = self.pokemon_team[self.current_pokemon]
+      self.pokemon = self.master[0][self.current_pokemon[0]]
       self.pokemon2 = self.pokemon_team2[self.current_pokemon2]
 
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
@@ -124,7 +123,7 @@ class Battle:
    
    def process_options(self):
       while self.bq.length() > 0:
-         action = self.bq.process()
+         action = self.bq.process()[1]
          #check to see if there is something in pq
          if action == None:
             break
@@ -150,7 +149,7 @@ class Battle:
       poke_team
       switch_index = index 
       '''
-      self.current_pokemon2 = cpu_random_switches
+      self.current_pokemonX = switch_index
       poke = poke_team[switch_index]
       print("\n" + "You just switched to " + poke + " !")
 

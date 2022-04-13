@@ -44,6 +44,7 @@ class Pokemon:
     x = randint(1, 25)
     if x == 24:
       crit = 1.5
+      print("Critical Hit!")
     else:
       crit = 1
 
