@@ -6,7 +6,7 @@ from pokemon import Moves
 from battlequeue import Battlequeue
 from option import Option
 
-class Battle:
+class Battle:  
    def __init__(self):
       self.bq = Battlequeue()
       self.pokedex = None
@@ -55,8 +55,9 @@ class Battle:
       return pokemon_team_list
 
    def interface(self):
+
       self.pokemon = self.master[0][self.current_pokemon[0]]
-      self.pokemon2 = self.pokemon_team2[self.current_pokemon2]
+      self.pokemon2 = self.master[1][self.current_pokemon[0]]
 
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
       while self.game_over == False:
@@ -73,21 +74,6 @@ class Battle:
       string_pokemon = [str(i) for i in l]
       seperator = ", "
       return seperator.join(string_pokemon)
-
-   #user-based functions 
-   def attack_pokemon(self):
-      #saves input into the queue
-      move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-      #saves move input
-      attack_option = Option("User", "Attack", self.pokemon, move_selection)
-
-      
-      # Battlequeue.option(move_selection)
-      current_move = self.pokemon.moves[int(move_selection) - 1]
-
-      self.pokemon.move(current_move, self.pokemon2)
-      print("\n" + "Your " + self.pokemon.name + " just used " + str(current_move) + " on " + self.pokemon2.name + "!")
-      self.cpu_check_health()
    
    def get_option(self):
       #ask user if they want to attack or switchb
@@ -141,23 +127,17 @@ class Battle:
       pokemonD = defending pokemon/getting attacked
       '''
       poke.move(pokemonM, pokemonD)
-      print("\n" + "Your " + pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
+      print("\n" pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
 
-   def process_switch(self, poke, poke_team, switch_index):
+   def process_switch(self, poke_index, poke_team, switch_index):
       '''
       poke = either pokemon or pokemon2
-      poke_team
+      poke_team = pokemon team
       switch_index = index 
       '''
-      self.current_pokemonX = switch_index
-      poke = poke_team[switch_index]
+      self.current_pokemon[poke_index] = switch_index
+      poke = self.master[poke_index][self.current_pokemon[switch_index]]
       print("\n" + "You just switched to " + poke + " !")
-
-   def cpu_attack_pokemon(self):
-      cpu_random_move = random.choice(self.pokemon2.moves)
-      self.pokemon2.move(cpu_random_move, self.pokemon)
-      print("\n" + "The CPUs' " + self.pokemon2.name + " just used " + str(cpu_random_move) + " on " + "your " + self.pokemon.name + "!")
-      self.check_health()
 
    def switch_pokemon(self, n = -1):
       if n == -1:
@@ -172,15 +152,14 @@ class Battle:
    
    def check_health(self):
       #check for health
-         if self.pokemon.hp <= 0:
-            dead_pokemon_name = self.pokemon.name
-            del self.pokemon_team[self.current_pokemon]
-            if len(self.pokemon_team) == 0:
-               self.game_over = True
-            else:
-               dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
-               self.switch_pokemon(dead_pokemon_switch)
-      #check for team
+      if self.pokemon.hp <= 0:
+         dead_pokemon_name = self.pokemon.name
+         del self.pokemon_team[self.current_pokemon]
+         if len(self.pokemon_team) == 0:
+            self.game_over = True
+         else:
+            dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
+            self.switch_pokemon(dead_pokemon_switch)
          
    #cpu-based functions
    def cpu_switch_pokemon(self, fainted = False):
