@@ -57,10 +57,12 @@ class Battle:
    def interface(self):
 
       self.pokemon = self.master[0][self.current_pokemon[0]]
-      self.pokemon2 = self.master[1][self.current_pokemon[0]]
+      self.pokemon2 = self.master[1][self.current_pokemon[1]]
 
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
       while self.game_over == False:
+         self.pokemon = self.master[0][self.current_pokemon[0]]
+         self.pokemon2 = self.master[1][self.current_pokemon[1]]
          input("\n" + "This is Round #" + str(self.round_counter) + ". Click enter to continue ")
          #code so cpu has already decided whether it wants to attack or switch
          self.get_option()
