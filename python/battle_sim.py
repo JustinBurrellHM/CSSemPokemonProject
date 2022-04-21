@@ -98,16 +98,16 @@ class Battle:
       selection = input("\n" + "The CPU is deciding its move. Click enter to continue. ")
       random_cpu_selection = random.randint(0,100)
       #percent chances for whether or not cpu attacks or switches
-      if random_cpu_selection < 10:
+      if random_cpu_selection < 0:
       # if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
          option_dictionary = {"agent": self.pokemon2,  "target": self.pokemon, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
          attack_option = Option(option_dictionary)
          self.bq.save(attack_option)
       else:
-         cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
-         while cpu_random_switches == self.current_pokemon2:
-            cpu_random_switches = random.randint(0, len(self.pokemon_team2)-1)
+         cpu_random_switches = random.randint(0, len(self.master[1])-1)
+         while cpu_random_switches == self.current_pokemon[1]:
+            cpu_random_switches = random.randint(0, len(self.master[1])-1)
          option_dictionary = {"agent": self.pokemon2, "move_type": "Switch", "pokemon_name": self.pokemon2, "pokemon_switch_index": cpu_random_switches, "agent_index": 1}
          switch_option = Option(option_dictionary)
          self.bq.save(switch_option)
@@ -120,10 +120,10 @@ class Battle:
          if action == None:
             break
          #exceute move 
-         if action.move_type == "Attack":
-            self.process_attack(info["agent"], info["target"], info["pokemon_name"], info["pokemon_move"])
-         elif action.move_type == "Switch":
-            self.process_switch(info["agent_index"], info["pokemon_switch_index"])
+         if info["move_type"] == "Attack":
+            self.process_attack(info["agent"], info["pokemon_name"], info["pokemon_move"], info["target"])
+         elif info["move_type"] == "Switch":
+            self.process_switch(info["agent_index"], info["pokemon_switch_index"], info['agent'])
          
    def process_attack(self, poke, pokemonA, pokemonM, pokemonD):
       '''
@@ -133,18 +133,21 @@ class Battle:
       pokemonD = defending pokemon/getting attacked
       '''
       poke.move(pokemonM, pokemonD)
-      print("\n" pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
-
+      print("\n" + pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
    
-   def process_switch(self, poke_index, switch_index):
+   def process_switch(self, poke_index, switch_index, agent):
       '''
       poke = either pokemon or pokemon2
       poke_team = pokemon team
       switch_index = index 
+      agent = CPU or User
       '''
       self.current_pokemon[poke_index] = switch_index
-      poke = self.master[poke_index][self.current_pokemon[switch_index]]
-      print("\n" + "You just switched to " + poke + " !")
+      poke = self.master[poke_index][self.current_pokemon[poke_index]]
+      if agent == self.pokemon:
+         print("\n" + "You just switched to " + poke.name + " !")
+      else:
+         print("\n" + "The CPU just switched to " + poke.name + " !")
 
    def switch_pokemon(self, n = -1):
       if n == -1:

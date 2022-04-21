@@ -4,10 +4,10 @@ class Battlequeue:
         self.pq = PriorityQueue()
     
     def set_priotity(self, option):
-        if option.move_type == "Switch":
+        if option.options["move_type"] == "Switch":
             return -6
         else:
-            return -option.pokemon_move.priority 
+            return -option.options["pokemon_move"].priority
 
     def save(self, option):
         priority_value = self.set_priotity(option)

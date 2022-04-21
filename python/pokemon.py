@@ -53,11 +53,12 @@ class Pokemon:
     random = y/100
 
     #type effectiveness
-    for i in p2.type:
-      if move.type == p2.type[i]:
-        type_effect = int(self.type[p2.type[i]]["damageTaken"][move.type])
-        if type_effect == 0:
-          type_effect = 1
+    type_list = p2.type[0]
+    for i in range(len(type_list)):
+
+      type_effect = self.types[type_list[i]]["damageTaken"][move.type]
+      if type_effect == 0:
+        type_effect = 1
 
     #same type attack bonus
     for i in self.type:
