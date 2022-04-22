@@ -55,10 +55,6 @@ class Battle:
       return pokemon_team_list
 
    def interface(self):
-
-      self.pokemon = self.master[0][self.current_pokemon[0]]
-      self.pokemon2 = self.master[1][self.current_pokemon[1]]
-
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
       while self.game_over == False:
          self.pokemon = self.master[0][self.current_pokemon[0]]
@@ -67,8 +63,6 @@ class Battle:
          #code so cpu has already decided whether it wants to attack or switch
          self.get_option()
          self.process_options()
-         if self.game_over == True:
-               break
          self.round_counter += 1
       self.check_win()
 
@@ -82,7 +76,7 @@ class Battle:
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
       if selection == "A":
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
-         option_dictionary = {"agent": self.pokemon,  "target": self.pokemon2, "move_type": "Attack", "pokemon_name": self.pokemon, "pokemon_move": self.pokemon.moves[int(move_selection) -1]}
+         option_dictionary = {"agent": self.pokemon,  "target": 1, "move_type": "Attack", "pokemon_name": self.pokemon, "pokemon_move": self.pokemon.moves[int(move_selection) -1]}
          attack_option = Option(option_dictionary)
          #save option to battlequeue class
          self.bq.save(attack_option)
@@ -101,7 +95,7 @@ class Battle:
       if random_cpu_selection < 0:
       # if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
-         option_dictionary = {"agent": self.pokemon2,  "target": self.pokemon, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
+         option_dictionary = {"agent": self.pokemon2,  "target": 0, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
          attack_option = Option(option_dictionary)
          self.bq.save(attack_option)
       else:
@@ -124,14 +118,18 @@ class Battle:
             self.process_attack(info["agent"], info["pokemon_name"], info["pokemon_move"], info["target"])
          elif info["move_type"] == "Switch":
             self.process_switch(info["agent_index"], info["pokemon_switch_index"], info['agent'])
+         self.check_health()
+         self.check_win()
          
-   def process_attack(self, poke, pokemonA, pokemonM, pokemonD):
+   def process_attack(self, poke, pokemonA, pokemonM, target):
       '''
       poke = either pokemon or pokemon2
       pokemonA = attacking pokemon
       pokemonM = pokemon move
       pokemonD = defending pokemon/getting attacked
       '''
+
+      pokemonD = self.master[target][self.current_pokemon[target]]
       poke.move(pokemonM, pokemonD)
       print("\n" + str(pokemonA) + " just used " + str(pokemonM) + " on " + str(pokemonD) + "!")
    
@@ -143,40 +141,33 @@ class Battle:
       agent = CPU or User
       '''
       self.current_pokemon[poke_index] = switch_index
-      self.pokemon2 = self.master[1][self.current_pokemon[1]]
       agent = self.master[poke_index][self.current_pokemon[poke_index]]
 
       if agent == self.pokemon:
          print("\n" + "You just switched to " + agent.name + " !")
       else:
          print("\n" + "The CPU just switched to " + agent.name + " !")
-
-   def switch_pokemon(self, n = -1):
-      if n == -1:
-         switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.pokemon_team) + "\n" + "You have " + str(len(self.pokemon_team)) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
-         self.current_pokemon = int(switch_selection) - 1
-         self.pokemon = self.pokemon_team[self.current_pokemon]
-         print("\n" + "You just switched to " + self.pokemon.name + " !")
-      else:
-         self.current_pokemon = int(n) - 1
-         self.pokemon = self.pokemon_team[self.current_pokemon]
-         print("\n" + "You just switched to " + self.pokemon.name + " !")
    
-   def check_health(self, poke, poke_index):
-      if poke.hp <= 0:
-         dead_pokemon_name = poke.name
-         del self.master[poke_index][self.current_pokemon[poke_index]]
-         if len(self.master[poke_index]) == 0:
-            self.game_over = True
-         else:
-            # if the dead pokemon is a user
-               dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
-               self.process(dead_pokemon_switch)
-            # else so if it is the cpu
-               #pick random pokemon to switch to
-               print("\n" + "The CPUs' " + dead_pokemon_name2 + " has fainted! They switched to " + self.pokemon2.name)
-
-      #check for team
+   def check_health(self):
+      for (agent,pokemon_index) in enumerate(self.current_pokemon):
+         pokemon = self.master[agent][pokemon_index]
+         if pokemon.hp <= 0:
+            dead_pokemon_name = pokemon.name
+            del self.master[agent][self.current_pokemon[pokemon_index]]
+            if len(self.master[agent]) == 0:
+               self.game_over = True
+            else:
+               if agent == 0:
+                  dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
+                  self.current_pokemon[agent] = dead_pokemon_switch
+                  new_pokemon = self.master[agent][self.current_pokemon[dead_pokemon_switch]]
+                  print("\n" + 'Your' + dead_pokemon_name + " has fainted! You switched to " + new_pokemon.name)
+               else:
+                  cpu_random_switches = random.randint(0, len(self.master[1])-1)
+                  while cpu_random_switches == self.current_pokemon[1]:
+                     cpu_random_switches = random.randint(0, len(self.master[1])-1)
+                  self.current_pokemon[agent] = cpu_random_switches
+                  print("\n" + "The CPUs' " + dead_pokemon_name + " has fainted! They switched to " + new_pokemon.name)
          
    def check_win(self):
       #if cpu won
