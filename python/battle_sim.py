@@ -133,7 +133,7 @@ class Battle:
       pokemonD = defending pokemon/getting attacked
       '''
       poke.move(pokemonM, pokemonD)
-      print("\n" + pokemonA + " just used " + str(pokemonM) + " on " + pokemonD+ "!")
+      print("\n" + str(pokemonA) + " just used " + str(pokemonM) + " on " + str(pokemonD) + "!")
    
    def process_switch(self, poke_index, switch_index, agent):
       '''
@@ -143,11 +143,13 @@ class Battle:
       agent = CPU or User
       '''
       self.current_pokemon[poke_index] = switch_index
-      poke = self.master[poke_index][self.current_pokemon[poke_index]]
+      self.pokemon2 = self.master[1][self.current_pokemon[1]]
+      agent = self.master[poke_index][self.current_pokemon[poke_index]]
+
       if agent == self.pokemon:
-         print("\n" + "You just switched to " + poke.name + " !")
+         print("\n" + "You just switched to " + agent.name + " !")
       else:
-         print("\n" + "The CPU just switched to " + poke.name + " !")
+         print("\n" + "The CPU just switched to " + agent.name + " !")
 
    def switch_pokemon(self, n = -1):
       if n == -1:
@@ -160,38 +162,28 @@ class Battle:
          self.pokemon = self.pokemon_team[self.current_pokemon]
          print("\n" + "You just switched to " + self.pokemon.name + " !")
    
-   def check_health(self):
-      #check for health
-      if self.pokemon.hp <= 0:
-         dead_pokemon_name = self.pokemon.name
-         del self.pokemon_team[self.current_pokemon]
-         if len(self.pokemon_team) == 0:
+   def check_health(self, poke, poke_index):
+      if poke.hp <= 0:
+         dead_pokemon_name = poke.name
+         del self.master[poke_index][self.current_pokemon[poke_index]]
+         if len(self.master[poke_index]) == 0:
             self.game_over = True
          else:
-            dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
-            self.switch_pokemon(dead_pokemon_switch)
-
-   
-   def cpu_check_health(self):
-      #check for health
-      if self.pokemon2.hp <= 0:
-         dead_pokemon_name2 = self.pokemon2.name
-         del self.pokemon_team2[self.current_pokemon2]
-         if len(self.pokemon_team2) == 0:
-            self.game_over = True
-         else:
-            self.current_pokemon2 = -1
-            self.cpu_switch_pokemon(True)
-            print("\n" + "The CPUs' " + dead_pokemon_name2 + " has fainted! They switched to " + self.pokemon2.name)
+            # if the dead pokemon is a user
+               dead_pokemon_switch = input("\n" + "Your " + dead_pokemon_name + " has fainted. You have " + str(len(self.pokemon_team)) + " pokemon avaliable." + "\n" + "Here is you team: " + self.print_list(self.pokemon_team) + "\n" + "Pick the pokemon you want to switch to ")
+               self.process(dead_pokemon_switch)
+            # else so if it is the cpu
+               #pick random pokemon to switch to
+               print("\n" + "The CPUs' " + dead_pokemon_name2 + " has fainted! They switched to " + self.pokemon2.name)
 
       #check for team
          
    def check_win(self):
       #if cpu won
-      if len(self.pokemon_team) == 0:
+      if len(self.master[0]) == 0:
          print("\n" + "Game Over! You Lost in " + str(self.round_counter) + " rounds.")
       #if user won
-      elif len(self.pokemon_team2) == 0:
+      elif len(self.master[1]) == 0:
          print("\n" + "Game Over! You Won in " + str(self.round_counter) + " rounds.")
 
 game = Battle()
