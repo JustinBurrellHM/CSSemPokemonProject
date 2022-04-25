@@ -68,7 +68,6 @@ class Pokemon:
         stab = 1.5
 
     damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
-    # damage = (((move.basepower*(self.atk/p2.defe))/50)+2)
     return damage
     
 
