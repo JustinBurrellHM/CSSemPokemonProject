@@ -92,7 +92,7 @@ class Battle:
       selection = input("\n" + "The CPU is deciding its move. Click enter to continue. ")
       random_cpu_selection = random.randint(0,100)
       #percent chances for whether or not cpu attacks or switches
-      if random_cpu_selection < 0:
+      if random_cpu_selection < 100:
       # if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
          option_dictionary = {"agent": self.pokemon2,  "target": 0, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
@@ -108,7 +108,7 @@ class Battle:
    
    def process_options(self):
       while self.bq.length() > 0:
-         action = self.bq.process()[1]
+         action = self.bq.process()
          info = action.options
          #check to see if there is something in pq
          if action == None:
