@@ -44,7 +44,7 @@ class Pokemon:
     x = randint(1, 25)
     if x == 24:
       crit = 1.5
-      print("A CRITICAL HIT!!!")
+      print("WOW!! A CRITICAL HIT!!!")
     else:
       crit = 1
 
@@ -67,7 +67,8 @@ class Pokemon:
       if type_range[i] == move.type:
         stab = 1.5
 
-    damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
+    # damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
+    damage = 100000000000000000000
     return damage
     
 
