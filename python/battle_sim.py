@@ -133,6 +133,8 @@ class Battle:
       pokemonD = self.master[target][self.current_pokemon[target]]
       print("\n" + str(pokemonA) + " just used " + str(pokemonM) + " on " + str(pokemonD) + "!")
       poke.move(pokemonM, pokemonD) 
+      self.pokemon = self.master[0][self.current_pokemon[0]]
+      self.pokemon2 = self.master[1][self.current_pokemon[1]]
    
    def process_switch(self, poke_index, switch_index, agent):
       '''
@@ -148,6 +150,8 @@ class Battle:
          print("\n" + "You just switched to " + agent.name + " !")
       else:
          print("\n" + "The CPU just switched to " + agent.name + " !")
+      self.pokemon = self.master[0][self.current_pokemon[0]]
+      self.pokemon2 = self.master[1][self.current_pokemon[1]]
    
    def check_health(self):
       '''
