@@ -154,9 +154,6 @@ class Battle:
       self.pokemon2 = self.master[1][self.current_pokemon[1]]
    
    def check_health(self):
-      '''
-      when a pokemon dies, it still attacks the next round. but the round after the right pokemon works.
-      '''
       death_check = False
       for (agent,pokemon_index) in enumerate(self.current_pokemon):
          pokemon = self.master[agent][pokemon_index]
