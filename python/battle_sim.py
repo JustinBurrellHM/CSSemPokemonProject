@@ -5,6 +5,7 @@ from pokemon import Pokemon
 from pokemon import Moves
 from battlequeue import Battlequeue
 from option import Option
+import pickle
 
 class Battle:  
    def __init__(self):
@@ -17,6 +18,12 @@ class Battle:
       self.game_over = False
       self.round_counter = 1
       self.master = []
+      self.pickled_moveset = None
+
+      #how to load and use the pickled object/dictionary
+      pickle_in = open("pokemon_moves.pickle", "rb")
+      self.pickled_moveset = pickle.load(pickle_in)
+      pickle_in.close()
 
       # with open('../json/pokedex.json') as f:
       with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
@@ -35,7 +42,7 @@ class Battle:
       pokemon_team2 = self.generate_pokemon(3)
       self.master.append(pokemon_team2)
 
-   def generate_pokemon(self, num_pokemon):
+   def old_generate_pokemon(self, num_pokemon):
       pokemon_team_list = []
       for _ in range(0,num_pokemon):
          moves_list = []
@@ -53,6 +60,50 @@ class Battle:
          random_pokemon = Pokemon(random_pokemon_json, moves_list)
          pokemon_team_list.append(random_pokemon)
       return pokemon_team_list
+   
+   def generate_pokemon(self, num_pokemon):
+      pokemon_team_list = []
+      for _ in range(0,num_pokemon):
+         moves_list = []
+         random_pokemon_move_names = []
+         # random_pokemon_name = random.choice(list(self.pokedex))
+         random_pokemon_name = random.choice(list(self.pickled_moveset))
+
+         #Case Issue: Sometimes a random pokemon is picked and it has no moves, gives an "IndexError: Cannot choose from an empty sequence" error when trying to run line 76: random_pokemon_move = random.choice(self.pickled_moveset[random_pokemon_name])
+         while len(self.pickled_moveset[random_pokemon_name]) == 0:
+            random_pokemon_name = random.choice(list(self.pickled_moveset))
+
+         # Case Issue: issues generating minior because there are different colors and they are referred to diferently in the api and showdown json
+         while "minior" in random_pokemon_name:
+            random_pokemon_name = random.choice(list(self.pickled_moveset))
+
+         #Case Issue: The base zygarde, zygarde 50%, is refered to as zygarde50 in the api but just zygarde50 in the showdown json
+         while "zygarde-50" in random_pokemon_name:
+            random_pokemon_name = random.choice(list(self.pickled_moveset))
+
+         # print(random_pokemon_name)
+         for _ in range(0,4):
+            random_pokemon_move = random.choice(self.pickled_moveset[random_pokemon_name])
+            random_pokemon_move_names.append(random_pokemon_move)
+         #parse and got its respective object
+         for move in random_pokemon_move_names:
+            if "-" in move:
+               move = move.replace("-", "")
+            random_pokemon_move = Moves(self.moves[move])
+            moves_list.append(random_pokemon_move)
+         #parse pokemon name
+         if "-" in random_pokemon_name:
+            random_pokemon_name = random_pokemon_name.replace("-", "")
+         #getting pokemon object
+         random_pokemon_json = self.pokedex[random_pokemon_name]
+         random_pokemon = Pokemon(random_pokemon_json, moves_list)
+         pokemon_team_list.append(random_pokemon)
+      return pokemon_team_list
+
+         # for _ in range(0,4):
+         #    random_pokemon_move_name = random.choice(list(self.moves))
+         #    while self.moves[random_pokemon_move_name][str("basePower")] == 0:
+         #       random_pokemon_move_name = random.choice(list(self.moves))
 
    def interface(self):
       input("Welcome to the Pokémon Battle Simulator. Click enter to continue ")
