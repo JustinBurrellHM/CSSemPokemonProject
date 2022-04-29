@@ -35,31 +35,12 @@ class Battle:
 
       #automate pokemon_team list so the list can have every pokemon no the team 
       pokemon_team = []
-      pokemon_team = self.generate_pokemon(10)
+      pokemon_team = self.generate_pokemon(5)
       self.master.append(pokemon_team)
       
       pokemon_team2 = []
-      pokemon_team2 = self.generate_pokemon(3)
+      pokemon_team2 = self.generate_pokemon(5)
       self.master.append(pokemon_team2)
-
-   def old_generate_pokemon(self, num_pokemon):
-      pokemon_team_list = []
-      for _ in range(0,num_pokemon):
-         moves_list = []
-         random_pokemon_move_names = []
-         for _ in range(0,4):
-            random_pokemon_move_name = random.choice(list(self.moves))
-            while self.moves[random_pokemon_move_name][str("basePower")] == 0:
-               random_pokemon_move_name = random.choice(list(self.moves))
-            random_pokemon_move_names.append(random_pokemon_move_name)
-         for i in random_pokemon_move_names:
-            random_pokemon_move = Moves(self.moves[i])
-            moves_list.append(random_pokemon_move)
-         random_pokemon_name = random.choice(list(self.pokedex))
-         random_pokemon_json = self.pokedex[random_pokemon_name]
-         random_pokemon = Pokemon(random_pokemon_json, moves_list)
-         pokemon_team_list.append(random_pokemon)
-      return pokemon_team_list
    
    def generate_pokemon(self, num_pokemon):
       pokemon_team_list = []
@@ -142,8 +123,8 @@ class Battle:
       selection = input("\n" + "The CPU is deciding its move. Click enter to continue. ")
       random_cpu_selection = random.randint(0,100)
       #percent chances for whether or not cpu attacks or switches
-      if random_cpu_selection < 100:
-      # if random_cpu_selection < 70:
+      # if random_cpu_selection < 100:
+      if random_cpu_selection < 70:
          cpu_random_move = random.choice(self.pokemon2.moves)
          option_dictionary = {"agent": self.pokemon2,  "target": 0, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
          attack_option = Option(option_dictionary)

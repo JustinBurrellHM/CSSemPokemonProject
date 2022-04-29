@@ -67,8 +67,8 @@ class Pokemon:
       if type_range[i] == move.type:
         stab = 1.5
 
-    # damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
-    damage = 100000000000000000000
+    damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
+    # damage = 100000000000000000000
     return damage
     
 
