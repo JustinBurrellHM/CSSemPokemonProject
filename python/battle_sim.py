@@ -1,11 +1,18 @@
-from code import interact
 import json
+import os
+import pickle
 import random
-from pokemon import Pokemon
-from pokemon import Moves
+from code import interact
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
 from battlequeue import Battlequeue
 from option import Option
-import pickle
+from pokemon import Moves, Pokemon
+
 
 class Battle:  
    def __init__(self):
@@ -25,12 +32,12 @@ class Battle:
       self.pickled_moveset = pickle.load(pickle_in)
       pickle_in.close()
 
-      # with open('../json/pokedex.json') as f:
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/pokedex.json') as f:
+      with open(os.getenv('pokedex')) as f:
+      #with open("json/pokedex.json") as f:
          self.pokedex = json.load(f)
 
-      # with open('../json/moves.json') as f:
-      with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/moves.json') as f:
+      with open(os.getenv('moves')) as f:
+      #with open(json/pokedex.json) as f:
          self.moves = json.load(f)
 
       #automate pokemon_team list so the list can have every pokemon no the team 

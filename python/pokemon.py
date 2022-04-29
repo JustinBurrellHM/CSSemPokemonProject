@@ -1,5 +1,9 @@
 import json
+import os
 from random import randint
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Moves:
@@ -30,7 +34,7 @@ class Pokemon:
     self.types = None
     self.moves = moves
 
-    with open('/Users/justinburrell/Desktop/HM Comp Sci/Comp Sci Sem/Semester Project/CSSemPokemonProject/json/types.json') as f:
+    with open(os.getenv('types')) as f:
       self.types = json.load(f)
   
   # move function
