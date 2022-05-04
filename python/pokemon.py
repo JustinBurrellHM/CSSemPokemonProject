@@ -74,6 +74,12 @@ class Pokemon:
     damage = (((move.basepower*(self.atk/p2.defe))/50)+2)*crit*random*stab*type_effect
     # damage = 100000000000000000000
     return damage
-    
+
+  def set_status(self):
+    '''
+    brn: burn
+    par: paralyzed
+    frz: frozen
+    '''
 
     

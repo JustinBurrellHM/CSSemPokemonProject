@@ -72,6 +72,8 @@ class Battle:
          # print(random_pokemon_name)
          for _ in range(0,4):
             random_pokemon_move = random.choice(self.pickled_moveset[random_pokemon_name])
+            # while self.moves[random_pokemon_move][str("basePower")] == 0:
+            #    random_pokemon_move = random.choice(self.pickled_moveset[random_pokemon_name])
             random_pokemon_move_names.append(random_pokemon_move)
          #parse and got its respective object
          for move in random_pokemon_move_names:
@@ -231,4 +233,4 @@ class Battle:
          print("\n" + "Game Over! You Won in " + str(self.round_counter) + " rounds.")
 
 battle_sim = Battle()
-battle_sim.interface() 
+battle_sim.interface()  
