@@ -1,7 +1,9 @@
 import json
+from msilib import change_sequence
 import os
 from random import randint
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 
@@ -33,17 +35,20 @@ class Pokemon:
     self.type = [stats["types"]] 
     self.types = None
     self.moves = moves
+    self.status_condition = []
 
     with open(os.getenv('types')) as f:
       self.types = json.load(f)
   
   # move function
   def move(self, move, p2):
-    damage = self.take_damage(p2, move)
+    effect = self.set_status(move)
+    p2.status_condition = effect
+    damage = self.set_damage(p2, move)
     p2.hp = p2.hp - damage
 
   # #take_damage functionacs
-  def take_damage(self, p2, move):
+  def set_damage(self, p2, move):
     #critical hit
     x = randint(1, 25)
     if x == 24:
@@ -75,11 +80,40 @@ class Pokemon:
     # damage = 100000000000000000000
     return damage
 
-  def set_status(self):
+  def set_secondary(self, move):
+    effect = None
+    stat = None
+    stat_number = None
+    boost = [stat, stat_number]
+    if move["category"] == "Status":
+      if "boosts" in move:
+        boost = move["boosts"]
+      elif "status" in move:
+        effect = move["status"]
+    else:
+      effect_secondary = move["secondary"]
+      chance_effect = random.randint(0, 100)
+      if chance_effect <= int(effect_secondary["chance"]):
+        effect = effect_secondary["status"]
+      else:
+        effect = None
+    return effect 
+      
+
     '''
     brn: burn
     par: paralyzed
     frz: frozen
+    tox: poisioned
+    psn: poisioned
+    slp: asleep
+
+    volatileStatus
+    confusion
+    flinch
     '''
 
+  def set_boost(self, move):
+    boost = None
+    if move["category"] == "Status":
     
