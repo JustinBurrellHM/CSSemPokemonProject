@@ -4,6 +4,7 @@ import os
 from random import randint
 from dotenv import load_dotenv
 import random
+from option import Option
 
 load_dotenv()
 
@@ -19,6 +20,33 @@ class Moves:
     self.pp = moves["pp"]
     self.type = moves["type"]
     self.priority = moves["priority"]
+
+  def get_secondary(self, move):
+    effect = None
+    stat = None
+    stat_number = None
+    boosts = []
+    #if the move affects target
+    #if the move affects user
+    #if status move 
+    if move["category"] == "Status":
+      if "boosts" in move:
+        for stat in move["boosts"]:
+          stat_number = move["boosts"][stat]
+          boost = [stat, stat_number]
+          boosts.append(boost)
+      elif "status" in move:
+        effect = move["status"]
+    else:
+      if does stuff to yourself
+      if lower opponenet stats 
+      effect_secondary = move["secondary"]
+      chance_effect = random.randint(0, 100)
+      if chance_effect <= int(effect_secondary["chance"]):
+        effect = effect_secondary["status"]
+      else:
+        effect = None
+    return Option({"boosts": boosts, "effects": effect})
 
 class Pokemon:
   def __repr__(self):
@@ -81,25 +109,9 @@ class Pokemon:
     return damage
 
   def set_secondary(self, move):
-    effect = None
-    stat = None
-    stat_number = None
-    boost = [stat, stat_number]
-    if move["category"] == "Status":
-      if "boosts" in move:
-        boost = move["boosts"]
-      elif "status" in move:
-        effect = move["status"]
-    else:
-      effect_secondary = move["secondary"]
-      chance_effect = random.randint(0, 100)
-      if chance_effect <= int(effect_secondary["chance"]):
-        effect = effect_secondary["status"]
-      else:
-        effect = None
-    return effect 
-      
 
+    
+      
     '''
     brn: burn
     par: paralyzed
@@ -112,8 +124,3 @@ class Pokemon:
     confusion
     flinch
     '''
-
-  def set_boost(self, move):
-    boost = None
-    if move["category"] == "Status":
-    

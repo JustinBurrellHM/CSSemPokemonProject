@@ -2226,7 +2226,7 @@
     "closecombat": {
         "num": 370,
         "accuracy": 100,
-        "basePower": 120000000,
+        "basePower": 120,
         "category": "Physical",
         "name": "Close Combat",
         "pp": 5,
@@ -2241,6 +2241,7 @@
                 "def": -1,
                 "spd": -1
             }
+
         },
         "secondary": null,
         "target": "normal",

@@ -116,6 +116,7 @@ class Battle:
       selection = input("\n" + "Here is the battle situation: " + self.pokemon.name + " versus " + self.pokemon2.name + ".\n" + "Your " + self.pokemon.name + " has " + str(self.pokemon.hp) + " HP. The opponent's " + self.pokemon2.name + " has " + str(self.pokemon2.hp) + " HP." + "\n" + "Would you like to [A]ttack or [S]witch Pokémon? ")
       if selection == "A":
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
+         
          option_dictionary = {"agent": self.pokemon,  "target": 1, "move_type": "Attack", "pokemon_name": self.pokemon, "pokemon_move": self.pokemon.moves[int(move_selection) -1]}
          attack_option = Option(option_dictionary)
          #save option to battlequeue class
