@@ -1,9 +1,11 @@
 import json
-from msilib import change_sequence
 import os
-from random import randint
-from dotenv import load_dotenv
 import random
+from msilib import change_sequence
+from random import randint
+
+from dotenv import load_dotenv
+
 from option import Option
 
 load_dotenv()
@@ -30,6 +32,13 @@ class Moves:
     #if the move affects user
     #if status move 
     if move["category"] == "Status":
+      # if it does stuff to yourself
+      if move["target"] == "self":
+        if "boosts" in move:
+          for stat in move["boosts"]:
+            stat_number = move["boosts"][stat]
+            boost = [stat, stat_number]
+            boosts.append(boost)
       if "boosts" in move:
         for stat in move["boosts"]:
           stat_number = move["boosts"][stat]
@@ -46,7 +55,19 @@ class Moves:
         effect = effect_secondary["status"]
       else:
         effect = None
-    return Option({"boosts": boosts, "effects": effect})
+    return Option({"move_type": "Secondary", "boosts": boosts, "effects": effect})
+    '''
+    brn: burn
+    par: paralyzed
+    frz: frozen
+    tox: poisioned
+    psn: poisioned
+    slp: asleep
+
+    volatileStatus
+    confusion
+    flinch
+    '''
 
 class Pokemon:
   def __repr__(self):
@@ -70,10 +91,14 @@ class Pokemon:
   
   # move function
   def move(self, move, p2):
-    effect = self.set_status(move)
+    effect = self.set_secondary(move)
     p2.status_condition = effect
     damage = self.set_damage(p2, move)
-    p2.hp = p2.hp - damage
+    accuracy_marker = random.randint(1,101)
+    if accuracy_marker <= move["accuracy"]:
+      p2.hp = p2.hp - damage
+    else:
+      print(move + "failed.")
 
   # #take_damage functionacs
   def set_damage(self, p2, move):
@@ -108,19 +133,4 @@ class Pokemon:
     # damage = 100000000000000000000
     return damage
 
-  def set_secondary(self, move):
-
-    
-      
-    '''
-    brn: burn
-    par: paralyzed
-    frz: frozen
-    tox: poisioned
-    psn: poisioned
-    slp: asleep
-
-    volatileStatus
-    confusion
-    flinch
-    '''
+  def set_secondary(self, option):
