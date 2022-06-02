@@ -118,10 +118,10 @@ class Battle:
          move_selection = input("\n" + "Pick your move:\n" + self.print_list(self.pokemon.moves) + " ")
          option_dictionary = {"agent": self.pokemon,  "target": 1, "move_type": "Attack", "pokemon_name": self.pokemon, "pokemon_move": self.pokemon.moves[int(move_selection) -1]}
          attack_option = Option(option_dictionary)
-         attack_secondary_option = Moves.get_secondary(self.pokemon.moves[int(move_selection) -1])
+         # attack_secondary_option = Moves.get_secondary(self.pokemon.moves[int(move_selection) -1])
          #save option to battlequeue class
          self.bq.save(attack_option)
-         self.bq.save(attack_secondary_option)
+         # self.bq.save(attack_secondary_option)
       elif selection == "S":
          switch_selection = input("\n" + "Here is you team:\n" + self.print_list(self.master[0]) + "\n" + "You have " + str(len(self.master[0])) + " pokemon avaliable. Pick the pokemon you want to switch to. ")
          option_dictionary = {"agent": self.pokemon, "move_type": "Switch", "pokemon_name": self.pokemon, "pokemon_switch_index": int(switch_selection) -1, "agent_index": 0}
@@ -139,9 +139,9 @@ class Battle:
          cpu_random_move = random.choice(self.pokemon2.moves)
          option_dictionary = {"agent": self.pokemon2,  "target": 0, "move_type": "Attack", "pokemon_name": self.pokemon2, "pokemon_move": cpu_random_move}
          attack_option = Option(option_dictionary)
-         attack_secondary_option = Moves.get_secondary(cpu_random_move)
+         # attack_secondary_option = Moves.get_secondary(cpu_random_move)
          self.bq.save(attack_option)
-         self.bq.save(attack_secondary_option)
+         # self.bq.save(attack_secondary_option)
       else:
          cpu_random_switches = random.randint(0, len(self.master[1])-1)
          while cpu_random_switches == self.current_pokemon[1]:
@@ -162,14 +162,14 @@ class Battle:
             self.process_attack(info["agent"], info["pokemon_name"], info["pokemon_move"], info["target"])
          elif info["move_type"] == "Switch":
             self.process_switch(info["agent_index"], info["pokemon_switch_index"], info['agent'])
-         elif info["move_type"] == "Secondary":
-            self.process_secondary()
+         # elif info["move_type"] == "Secondary":
+         #    self.process_secondary()
          death_check = self.check_health()
          if death_check:
             self.check_win()
             break
    
-   def process_secondary(self, poke, pokemonA, pokemonM, pokemonD, boosts, effects):
+   # def process_secondary(self, poke, pokemonA, pokemonM, pokemonD, boosts, effects):
 
    def process_attack(self, poke, pokemonA, pokemonM, target):
       '''
